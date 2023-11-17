@@ -1,8 +1,6 @@
 #------------------------------------------------------------------------------
 # Hands-On Lab: Data Engineering with Snowpark
 # Script:       02_load_raw.py
-# Author:       Jeremiah Hansen, Caleb Baechtold
-# Last Updated: 1/9/2023
 #------------------------------------------------------------------------------
 
 import time
@@ -26,9 +24,11 @@ def load_raw_table(session, tname=None, s3dir=None, year=None, schema=None):
     session.use_schema(schema)
     if year is None:
         location = "@external.frostbyte_raw_stage/{}/{}".format(s3dir, tname)
+        print(location)
     else:
         print('\tLoading year {}'.format(year)) 
         location = "@external.frostbyte_raw_stage/{}/{}/year={}".format(s3dir, tname, year)
+        print(location)
     
     # we can infer schema using the parquet read option
     df = session.read.option("compression", "snappy") \
